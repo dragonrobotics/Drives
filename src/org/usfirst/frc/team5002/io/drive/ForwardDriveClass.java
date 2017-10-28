@@ -1,9 +1,11 @@
 package org.usfirst.frc.team5002.io;
 
 import org.usfirst.frc.team5002.robot.Robot;
+
 /**
  * 
  * @author Chris McKinnon
+ * Sets value for forward drive
  *
  */
 

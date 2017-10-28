@@ -13,7 +13,7 @@ import org.usfirst.frc.team5002.drive.swerve.SwerveModule;
  * @author Brandon Gong
  * Date: 9/17/17
  */
-public class SwerveDrive2018 extends Subsystem implements SwerveDrive {
+public class SwerveDrive2018 extends SwerveDrive {
 
     /*
      * Swerve Submodules.
@@ -29,13 +29,14 @@ public class SwerveDrive2018 extends Subsystem implements SwerveDrive {
     private float forward;
     private float strafe;
     private float twist;
+    
+   
 
-    /*
-     * Dimensions of base (axle-to-axle, wheel-to-wheel respectively).
-     */
+    
+   
+	
     private final double LENGTH = 24.69;
     private final double WIDTH = 22.61;
-
     /**
      * Constructs a new SwerveDrive2018 instance with the given SwerveModule
      * submodules.
@@ -60,10 +61,13 @@ public class SwerveDrive2018 extends Subsystem implements SwerveDrive {
      * and then recalculates wheel speeds and angles.
      * @param forward the forwards and backward motion
      * @author Nikitha Sam
+     * 
      */
+    
     public void setDrive(float forward) {
       this.forward = forward;
       this.drive(this.forward, this.strafe, this.twist);
+      this.drive();
     }
 
     /**
@@ -75,6 +79,7 @@ public class SwerveDrive2018 extends Subsystem implements SwerveDrive {
     public void setTurn(float strafe) {
       this.strafe = strafe;
       this.drive(this.forward, this.strafe, this.twist);
+      this.drive();
     }
 
     /**
@@ -86,6 +91,7 @@ public class SwerveDrive2018 extends Subsystem implements SwerveDrive {
     public void setTwist(float twist) {
       this.twist = twist;
       this.drive(this.forward, this.strafe, this.twist);
+      this.drive();
     }
 
     /**
@@ -98,31 +104,9 @@ public class SwerveDrive2018 extends Subsystem implements SwerveDrive {
      * @author Nikitha Sam
      * Date: 09/17/2017
      */
-    public void drive(double x, double y, double z) {
+    public void drive() {
 
-            // Calculate diagonal length.
-            double r = Math.sqrt((this.LENGTH * this.LENGTH) + (this.WIDTH * this.WIDTH));
-
-            // invert y-axis
-            y *= -1;
-
-            // intermediate vector components
-            double a = x - z * (this.LENGTH / r);
-            double b = x + z * (this.LENGTH / r);
-            double c = y - z * (this.WIDTH / r);
-            double d = y + z * (this.WIDTH / r);
-
-            // This is the speed calculations for each wheel.
-            double brSpeed = Math.sqrt((a * a) + (d * d));
-            double blSpeed = Math.sqrt((a * a) + (c * c));
-            double frSpeed = Math.sqrt((b * b) + (d * d));
-            double flSpeed = Math.sqrt((b * b) + (c * c));
-
-            // Angle calculations for each wheel.
-            double brAngle = Math.atan2(a, d) / Math.PI;
-            double blAngle = Math.atan2(a, c) / Math.PI;
-            double frAngle = Math.atan2(b, d) / Math.PI;
-            double flAngle = Math.atan2(b, c) / Math.PI;
+            
 
             // Assign calculated values to swerve modules.
             this.backRight.drive(brSpeed, brAngle);

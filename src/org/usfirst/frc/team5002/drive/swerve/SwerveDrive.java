@@ -13,12 +13,35 @@ import org.usfirst.frc.team5002.drive.Drive;
  * @author Brandon Gong
  * Date: 9/9/17
  */
-public interface SwerveDrive extends Drive {
+public abstract class SwerveDrive implements Drive {
 
     /**
      * Lock the base.  This turns all wheels into an X-formation.
      */
-    public void lock();
+    public abstract void lock();
+    
+    /*
+     * Dimensions of base (axle-to-axle, wheel-to-wheel respectively).
+     */
+    private final double LENGTH = 24.69;
+    private final double WIDTH = 22.61;
+
+     double a;
+     double b;
+     double c;
+     double d;
+     double brSpeed;
+     double blSpeed;
+     double frSpeed;
+     double flSpeed;
+     double brAngle;
+     double blAngle;
+     double frAngle;
+     double flAngle;
+    
+
+
+
 
      /**
       * Set the twisting rate.  This means rotating robot chassis while
@@ -28,6 +51,30 @@ public interface SwerveDrive extends Drive {
       *             twisting rate.  Should be between -1 and +1, with 0 being
       *             no twisting at all.
       */
-     public void setTwist(float rate);
+     public void drive(double x, double y, double z) {
+    	// Calculate diagonal length.
+         double r = Math.sqrt((this.LENGTH * this.LENGTH) + (this.WIDTH * this.WIDTH));
+
+         // invert y-axis
+         y *= -1;
+
+         // intermediate vector components
+          a = x - z * (this.LENGTH / r);
+          b = x + z * (this.LENGTH / r);
+          c = y - z * (this.WIDTH / r);
+          d = y + z * (this.WIDTH / r);
+
+         // This is the speed calculations for each wheel.
+          brSpeed = Math.sqrt((a * a) + (d * d));
+          blSpeed = Math.sqrt((a * a) + (c * c));
+         frSpeed = Math.sqrt((b * b) + (d * d));
+          flSpeed = Math.sqrt((b * b) + (c * c));
+
+         // Angle calculations for each wheel.
+          brAngle = Math.atan2(a, d) / Math.PI;
+          blAngle = Math.atan2(a, c) / Math.PI;
+          frAngle = Math.atan2(b, d) / Math.PI;
+          flAngle = Math.atan2(b, c) / Math.PI;
+        }
 
 }
